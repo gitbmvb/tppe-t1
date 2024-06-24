@@ -1,5 +1,7 @@
 # TPPE - T1
-Trabalho 1 da disciplina de Técnicas de Programação em Plataformas Emergentes.
+[Trabalho 1](https://github.com/andrelanna/fga0242/tree/master/TP) da disciplina de Técnicas de Programação em Plataformas Emergentes.
+
+Prof. André Lanna
 
 ## Integrantes
 | Matrícula | Nome |
