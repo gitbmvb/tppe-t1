@@ -1,11 +1,38 @@
 package Models.Enums;
 
-public enum EClientType {
-    Special(1),
-    Default(2),
-    DefaultAndSpecial(3),
-    Prime(4),
-    PrimeAndSpecial(5);
+import Models.Interfaces.Discontable;
+
+public enum EClientType implements Discontable {
+    Special(1) {
+        @Override
+        public Double applyDiscount(Double value, Double freigth) {
+            return value + freigth;
+        }
+    },
+    Default(2) {
+        @Override
+        public Double applyDiscount(Double value, Double freigth) {
+            return value + freigth;
+        }
+    },
+    DefaultAndSpecial(3) {
+        @Override
+        public Double applyDiscount(Double value, Double freigth) {
+            return null;
+        }
+    },
+    Prime(4) {
+        @Override
+        public Double applyDiscount(Double value, Double freigth) {
+            return null;
+        }
+    },
+    PrimeAndSpecial(5) {
+        @Override
+        public Double applyDiscount(Double value, Double freigth) {
+            return null;
+        }
+    };
 
     private final int code;
 

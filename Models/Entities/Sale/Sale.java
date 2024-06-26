@@ -1,12 +1,12 @@
-package Models.Sale;
+package Models.Entities.Sale;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Models.Abstract.Client;
+import Models.Entities.Abstract.Client;
+import Models.Entities.Product.Product;
 import Models.Enums.EPaymentMethod;
-import Models.Product.Product;
 import Models.ValueObject.Taxes;
 
 public class Sale {
@@ -26,7 +26,7 @@ public class Sale {
     public Double finish() {
         Double totalValue = this.sumProductsPriceAndTaxes();
         Double freigth = (this.client.getType().getCode() & 4) == 4 ? 0.0 : this.client.getAddress().calculateFreigth();
-        totalValue = applyDiscount(totalValue, freigth, paymentMethod);
+        totalValue = this.client.getType().applyDiscount(totalValue, freigth);
         cashBackManipulation(totalValue);
         return totalValue;
     }
@@ -47,15 +47,6 @@ public class Sale {
         }
 
         return sum;
-    }
-
-    private Double applyDiscount(Double value, Double freigth, EPaymentMethod method) {
-        if ((this.client.getType().getCode() & 1) == 0) {
-            if (method == EPaymentMethod.CreditCard)
-                value *= 0.9;
-            return (value * 0.9) + (freigth * 0.7);
-        }
-        return value + freigth;
     }
 
     public Date getData() {

@@ -1,12 +1,12 @@
-package Models.Abstract;
+package Models.Entities.Abstract;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import Models.Entities.Product.Product;
+import Models.Entities.Sale.Sale;
 import Models.Enums.EClientType;
 import Models.Enums.EPaymentMethod;
-import Models.Product.Product;
-import Models.Sale.Sale;
 import Models.ValueObject.Address;
 import Models.ValueObject.CreditCard;
 
@@ -47,14 +47,6 @@ public abstract class Client {
         if (creditCard == null)
             creditCard = new CreditCard(GenerateCreditCardValue());
         return creditCard;
-    }
-
-    public Double freightDiscount(Double freight) {
-        return freight;
-    }
-
-    public Double valueDiscount(Double value) {
-        return value;
     }
 
     private String GenerateCreditCardValue() {
