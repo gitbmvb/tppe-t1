@@ -148,14 +148,17 @@ public class Market {
         while (option != 0) {
             option = menuHome();
             switch (option) {
+                case 0:
+                    option = 0;
+                    break;
                 case 1:
                     menuClient();
                     break;
                 case 2:
                     menuSales();
                     break;
-                case 0:
-                    option = 0;
+                case 3:
+                    menuProduct();
                     break;
                 default:
                     System.out.println("Opção inválida");
