@@ -1,25 +1,23 @@
 package Models.Entities.Market;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
-
 import Database.Database;
-import Models.Entities.Abstract.Client;
 import Models.Entities.Client.DefaultClient;
+import Models.Entities.Menu.Menu;
 
 public class Market {
+    public Integer menuHome() {
+        Menu menu = new Menu("Menu Principal", new ArrayList<>(Arrays.asList("Cliente", "Vendas", "Produtos")));
+        menu.setSelectedOption();
+        return menu.getSelectedOption();
+    }
 
-   public void menuClient(){
-       System.out.println("===============");
-        System.out.println("Menu do Cliente");
-        System.out.println("1 - Listar");
-        System.out.println("2 - Adicionar");
-        System.out.println("3 - Deletar");
-        System.out.println("0 - Voltar");
-        System.out.println("===============");
-        System.out.println("Opção: ");
-        Scanner scanner = new Scanner(System.in);
-        Integer option = scanner.nextInt();
-        switch(option){
+    public void menuClient() {
+        Menu menu = new Menu("Menu do Cliente", new ArrayList<>(Arrays.asList("Listar", "Adicionar", "Deletar")));
+        menu.setSelectedOption();
+        switch (menu.getSelectedOption()) {
             case 1:
                 listClients();
                 break;
@@ -35,101 +33,121 @@ public class Market {
                 System.out.println("Opção inválida");
                 break;
         }
-   }
-   
-    public void listClients(){
-        System.out.println("===============");
-        Database db = Database.getInstance();
-        Integer size = db.getClients().size();
-        if(size == 0)
-        System.out.println("Nenhum cliente cadastrado.");
-        else {
-            System.out.println("Listando clientes");
-            for(Client client : db.getClients()){
-                System.out.println("ID: " + client.getId());
-                System.out.println("Nome: " + client.getName() + "\n");
-            }
-        }
-        System.out.println("===============");
-   }
+    }
 
-   public void addClient(){
+    public void menuSales() {
+        Menu menu = new Menu("Menu de Vendas", new ArrayList<>(Arrays.asList("Listar", "Adicionar", "Deletar")));
+        menu.setSelectedOption();
+        switch (menu.getSelectedOption()) {
+            case 1:
+                listSales();
+                break;
+            case 2:
+                // addSale();
+                break;
+            case 3:
+                removeSale();
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Opção inválida");
+                break;
+        }
+    }
+
+    public void menuProduct() {
+        Menu menu = new Menu("Menu de Produtos", new ArrayList<>(Arrays.asList("Listar", "Adicionar", "Deletar")));
+        menu.setSelectedOption();
+        switch (menu.getSelectedOption()) {
+            case 1:
+                listProducts();
+                break;
+            case 2:
+                // addProduct();
+                break;
+            case 3:
+                removeProduct();
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Opção inválida");
+                break;
+        }
+    }
+
+    public void listClients() {
+        Database db = Database.getInstance();
+        db.listClients();
+    }
+
+    public void listSales() {
+        Database db = Database.getInstance();
+        db.listSales();
+    }
+
+    public void listProducts() {
+        Database db = Database.getInstance();
+        db.listProducts();
+    }
+
+    public void addClient() {
         System.out.println("===============");
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("Digite o nome do cliente: ");
         String name = scanner.nextLine();
-        
         System.out.println("Digite a sigla do estado do cliente: ");
         String state = scanner.nextLine();
-
         System.out.println("Digite o tipo de endereço do cliente (Capital ou Interior): ");
         String place = scanner.nextLine();
-        
+
         // resolve isso daqui pra nois kaua pfv
         DefaultClient client = new DefaultClient(name, null);
         Database db = Database.getInstance();
         db.addClient(client);
         System.out.println("Cliente adicionado com sucesso!");
         System.out.println("===============");
-   }
+    }
 
-   public void removeClient(){
+    public void removeClient() {
         System.out.println("===============");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite o ID do cliente que deseja remover: ");
+        Integer id = scanner.nextInt();
         Database db = Database.getInstance();
-        db.removeClient(scanner.nextInt());
+        db.removeClient(id);
         System.out.println("Cliente removido com sucesso!");
         System.out.println("===============");
-   }
+    }
 
-   public void menuSales(){
-       System.out.println("===============");
-        System.out.println("Menu de Vendas");
-        System.out.println("1 - Listar");
-        System.out.println("2 - Adicionar");
-        System.out.println("3 - Deletar");
-        System.out.println("0 - Voltar");
+    public void removeSale() {
         System.out.println("===============");
-        System.out.println("Opção: ");
         Scanner scanner = new Scanner(System.in);
-        Integer option = scanner.nextInt();
-        // switch(option){
-        //     case 1:
-        //         listSales();
-        //         break;
-        //     case 2:
-        //         addSale();
-        //         break;
-        //     case 3:
-        //         removeSale();
-        //         break;
-        //     case 0:
-        //         break;
-        //     default:
-        //         System.out.println("Opção inválida");
-        //         break;
-        // }
-   }
-
-   public Integer menuHome(){
-       System.out.println("===============");
-        System.out.println("Menu Principal");
-        System.out.println("1 - Cliente");
-        System.out.println("2 - Vendas");
-        System.out.println("0 - Sair");
+        System.out.println("Digite o ID da venda que deseja remover: ");
+        Integer id = scanner.nextInt();
+        Database db = Database.getInstance();
+        db.removeSale(id);
+        System.out.println("Venda removida com sucesso!");
         System.out.println("===============");
-        System.out.println("Opção: ");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-   }
+    }
 
-   public void run(){
+    public void removeProduct() {
+        System.out.println("===============");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Digite o ID do produto que deseja remover: ");
+        Integer id = scanner.nextInt();
+        Database db = Database.getInstance();
+        db.removeProduct(id);
+        System.out.println("Produto removido com sucesso!");
+        System.out.println("===============");
+    }
+
+    public void run() {
         Integer option = -1;
-        while(option != 0){
+        while (option != 0) {
             option = menuHome();
-            switch(option){
+            switch (option) {
                 case 1:
                     menuClient();
                     break;
@@ -144,5 +162,5 @@ public class Market {
                     break;
             }
         }
-   }
+    }
 }
