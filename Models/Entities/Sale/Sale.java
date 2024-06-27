@@ -17,6 +17,15 @@ public class Sale {
     private Cart cart;
     private EPaymentMethod paymentMethod;
     private Taxes taxes = new Taxes();
+    private Double totalValue = 0.0;
+
+    public Double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(Double totalValue) {
+        this.totalValue = totalValue;
+    }
 
     public Sale(Client client, EPaymentMethod paymentMethod, Cart cart) {
         id = idCounter++;
@@ -33,6 +42,7 @@ public class Sale {
         if (paymentMethod == EPaymentMethod.CreditCard)
             totalValue *= 0.9;
         cashBackManipulation(totalValue);
+        this.totalValue = totalValue;
         return totalValue;
     }
 

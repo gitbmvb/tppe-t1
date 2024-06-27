@@ -1,6 +1,11 @@
 package Models.Entities.Abstract;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
+
+import Database.Database;
 import Models.Entities.Cart.Cart;
 import Models.Entities.Product.Product;
 import Models.Entities.Sale.Sale;
@@ -24,6 +29,19 @@ public abstract class Client {
         this.name = name;
         this.address = address;
         this.cart = new Cart(this);
+    }
+
+    // talvez de errado por fazer referencia ao endereco do objeto no if e da funcao
+    // deprecada
+    public boolean isNowSpecial() {
+        Database db = Database.getInstance();
+        ArrayList<Sale> sales = db.getSales();
+        Double totalBuyed = 0.0;
+        for (Sale s : sales)
+            if (s.getClient() == this && s.getData().getMonth() == Date.from(Instant.now()).getMonth() - 1)
+                totalBuyed += s.getTotalValue();
+
+        return totalBuyed >= 100.0;
     }
 
     public void AddToCart(Product p) {
