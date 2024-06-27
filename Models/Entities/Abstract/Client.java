@@ -1,8 +1,7 @@
 package Models.Entities.Abstract;
 
-import java.util.ArrayList;
 import java.util.Random;
-
+import Models.Entities.Cart.Cart;
 import Models.Entities.Product.Product;
 import Models.Entities.Sale.Sale;
 import Models.Enums.EClientType;
@@ -11,24 +10,28 @@ import Models.ValueObject.Address;
 import Models.ValueObject.CreditCard;
 
 public abstract class Client {
+    private static Integer idCounter = 0;
+    private Integer id = 0;
     private String name;
     private Address address;
     private CreditCard creditCard;
-    private ArrayList<Product> products = new ArrayList<Product>();
+    private Cart cart;
     protected EClientType type = EClientType.Default;
     protected Double cashBack = 0.0;
 
     public Client(String name, Address address) {
+        id = idCounter++;
         this.name = name;
         this.address = address;
+        this.cart = new Cart(this);
     }
 
     public void AddToCart(Product p) {
-        this.products.add(p);
+        this.cart.add(p);
     }
 
     public Sale BuyCart(EPaymentMethod paymentMethod) {
-        return new Sale(this, paymentMethod, products);
+        return new Sale(this, paymentMethod, cart);
     }
 
     public Double addCashback(Double value) {
@@ -37,6 +40,10 @@ public abstract class Client {
 
     public Double discountCashback(Double value) {
         return this.cashBack;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Double getCashBack() {

@@ -1,25 +1,28 @@
 package Models.Entities.Sale;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 
 import Models.Entities.Abstract.Client;
+import Models.Entities.Cart.Cart;
 import Models.Entities.Product.Product;
 import Models.Enums.EPaymentMethod;
 import Models.ValueObject.Taxes;
 
 public class Sale {
+    private static Integer idCounter = 0;
+    public Integer id = 0;
     private Date data;
     private Client client;
-    private ArrayList<Product> products;
+    private Cart cart;
     private EPaymentMethod paymentMethod;
     private Taxes taxes = new Taxes();
 
-    public Sale(Client client, EPaymentMethod paymentMethod, ArrayList<Product> products) {
+    public Sale(Client client, EPaymentMethod paymentMethod, Cart cart) {
+        id = idCounter++;
         this.data = Date.from(Instant.now());
         this.client = client;
-        this.products = products;
+        this.cart = cart;
         this.paymentMethod = paymentMethod;
     }
 
@@ -41,7 +44,7 @@ public class Sale {
 
     private double sumProductsPriceAndTaxes() {
         double sum = 0.0;
-        for (Product p : products) {
+        for (Product p : cart.products) {
             taxes.calculateTaxes(this.client.getAddress(), p.getPrice());
             sum += p.getPrice() + taxes.getIcms() + taxes.getMunicipal();
         }
@@ -65,12 +68,12 @@ public class Sale {
         this.client = client;
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public EPaymentMethod getPaymentMethod() {

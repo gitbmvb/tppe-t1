@@ -1,14 +1,17 @@
-package Models.Product;
+package Models.Entities.Product;
 
 import Models.ValueObject.ProductInfo;
 
 public class Product {
+    private static Integer idCounter = 0;
+    public Integer id = 0;
     private ProductInfo Info;
     private Double price;
     private String unit;
     private int amount;
 
     public Product(ProductInfo info, Double price, String unit, int amount) {
+        id = idCounter++;
         this.price = price;
         this.unit = unit;
         this.amount = amount;
