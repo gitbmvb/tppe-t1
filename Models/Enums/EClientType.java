@@ -3,34 +3,28 @@ package Models.Enums;
 import Models.Interfaces.Discontable;
 
 public enum EClientType implements Discontable {
-    Special(1) {
+    Default(1) {
         @Override
         public Double applyDiscount(Double value, Double freigth) {
             return value + freigth;
         }
     },
-    Default(2) {
+    DefaultAndSpecial(2) {
+        @Override
+        public Double applyDiscount(Double value, Double freigth) {
+            return (value * 0.9) + (freigth * 0.7);
+        }
+    },
+    Prime(3) {
         @Override
         public Double applyDiscount(Double value, Double freigth) {
             return value + freigth;
         }
     },
-    DefaultAndSpecial(3) {
+    PrimeAndSpecial(4) {
         @Override
         public Double applyDiscount(Double value, Double freigth) {
-            return null;
-        }
-    },
-    Prime(4) {
-        @Override
-        public Double applyDiscount(Double value, Double freigth) {
-            return null;
-        }
-    },
-    PrimeAndSpecial(5) {
-        @Override
-        public Double applyDiscount(Double value, Double freigth) {
-            return null;
+            return (value * 0.9) + (freigth * 0.7);
         }
     };
 

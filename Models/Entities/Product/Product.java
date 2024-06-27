@@ -1,4 +1,4 @@
-package Models.Product;
+package Models.Entities.Product;
 
 import Models.ValueObject.ProductInfo;
 

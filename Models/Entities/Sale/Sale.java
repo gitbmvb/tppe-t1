@@ -27,6 +27,8 @@ public class Sale {
         Double totalValue = this.sumProductsPriceAndTaxes();
         Double freigth = (this.client.getType().getCode() & 4) == 4 ? 0.0 : this.client.getAddress().calculateFreigth();
         totalValue = this.client.getType().applyDiscount(totalValue, freigth);
+        if (paymentMethod == EPaymentMethod.CreditCard)
+            totalValue *= 0.9;
         cashBackManipulation(totalValue);
         return totalValue;
     }

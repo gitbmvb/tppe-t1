@@ -1,6 +1,6 @@
-package Models.Client;
+package Models.Entities.Client;
 
-import Models.Abstract.Client;
+import Models.Entities.Abstract.Client;
 import Models.Enums.EPaymentMethod;
 import Models.ValueObject.Address;
 
