@@ -1,11 +1,9 @@
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import javax.xml.crypto.Data;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +12,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.example.Database.Database;
 import com.example.Models.Entities.Client.DefaultClient;
+import com.example.Models.Entities.Client.PrimeClient;
 import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EState;
 import com.example.Models.ValueObject.Address;
@@ -38,23 +37,36 @@ public class Requirement1 {
     public static Collection<Object[]> getParameters() {
         Object[][] parameters = new Object[][] {
                 { EState.MG, EAddressPlace.Capital, "André Lanna", 1 },
-                { EState.BA, EAddressPlace.Inside, "Kyllian Mbappe", 2 },
-                { EState.DF, EAddressPlace.Capital, "Kvaratskelia", 3 },
-                { EState.DF, EAddressPlace.Inside, "André Balada", 4 }
+                { EState.BA, EAddressPlace.Inside, "Kyllian Mbappe", 1 },
+                { EState.DF, EAddressPlace.Capital, "Kvaratskelia", 1 },
+                { EState.DF, EAddressPlace.Inside, "André Balada", 1 }
         };
 
         return Arrays.asList(parameters);
     }
 
     @Before
-    public void setup() {
+    public void setupDb() {
         this.db = Database.getInstance();
+    }
+
+    @After
+    public void cleanDb() {
+        this.db.getClients().clear();
     }
 
     @Test
     public void ItShouldRegisterADefaultClient() {
         Address a = new Address(state, address);
         DefaultClient c = new DefaultClient(name, a);
+        db.addClient(c);
+        assertTrue(db.getClients().size() == result);
+    }
+
+    @Test
+    public void ItShouldRegisterAPrimeClient() {
+        Address a = new Address(state, address);
+        PrimeClient c = new PrimeClient(name, a);
         db.addClient(c);
         assertTrue(db.getClients().size() == result);
     }
