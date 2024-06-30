@@ -4,7 +4,7 @@ import com.example.Models.ValueObject.ProductInfo;
 
 public class Product {
     private static Integer idCounter = 0;
-    public Integer id = 0;
+    private Integer id = 0;
     private ProductInfo Info;
     private Double price;
     private String unit;
@@ -16,6 +16,10 @@ public class Product {
         this.unit = unit;
         this.amount = amount;
         this.Info = info;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public ProductInfo getInfo() {

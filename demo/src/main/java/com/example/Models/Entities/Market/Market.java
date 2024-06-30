@@ -8,7 +8,15 @@ import com.example.Database.Database;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Menu.Menu;
 
+import demo.src.main.java.com.example.Models.Entities.Abstract.Client;
+import demo.src.main.java.com.example.Models.Entities.Cart.Cart;
+import demo.src.main.java.com.example.Models.Entities.Product.Product;
+import demo.src.main.java.com.example.Models.Entities.Sale.Sale;
+
 public class Market {
+    private Database db = Database.getInstance();
+
+    // Menus
     public Integer menuHome() {
         Menu menu = new Menu("Menu Principal", new ArrayList<>(Arrays.asList("Cliente", "Vendas", "Produtos")));
         menu.setSelectedOption();
@@ -44,7 +52,7 @@ public class Market {
                 listSales();
                 break;
             case 2:
-                // addSale();
+                addSale();
                 break;
             case 3:
                 removeSale();
@@ -65,7 +73,7 @@ public class Market {
                 listProducts();
                 break;
             case 2:
-                // addProduct();
+                addProduct();
                 break;
             case 3:
                 removeProduct();
@@ -78,69 +86,164 @@ public class Market {
         }
     }
 
+    // CRUD de Clientes
     public void listClients() {
-        Database db = Database.getInstance();
-        db.listClients();
-    }
-
-    public void listSales() {
-        Database db = Database.getInstance();
-        db.listSales();
-    }
-
-    public void listProducts() {
-        Database db = Database.getInstance();
-        db.listProducts();
+        System.out.println("===============");
+        System.out.println("Listar Clientes");
+        ArrayList<Client> clients = this.db.getClients();
+        if(clients.size() == 0){
+            System.out.println("Nenhum cliente cadastrado");
+        } else {
+            System.out.println("Listando clientes");
+            for (Client client : clients) {
+                System.out.println("ID: " + client.getId());
+                System.out.println("Nome: " + client.getName() + "\n");
+            }
+        }
     }
 
     public void addClient() {
         System.out.println("===============");
+        System.out.println("Adicionar Cliente");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite o nome do cliente: ");
+        // Nome
+        System.out.println("Nome: ");
         String name = scanner.nextLine();
-        System.out.println("Digite a sigla do estado do cliente: ");
+        // Estado
+        System.out.println("Estado: ");
         String state = scanner.nextLine();
-        System.out.println("Digite o tipo de endereço do cliente (Capital ou Interior): ");
+        // Lugar
+        System.out.println("Lugar: ");
         String place = scanner.nextLine();
 
-        // resolve isso daqui pra nois kaua pfv
-        DefaultClient client = new DefaultClient(name, null);
-        Database db = Database.getInstance();
-        db.addClient(client);
-        System.out.println("Cliente adicionado com sucesso!");
+        this.db.addClient(name, state, place);
+        System.out.println("Cliente adicionado");
         System.out.println("===============");
     }
 
     public void removeClient() {
         System.out.println("===============");
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Remover Cliente");
         System.out.println("Digite o ID do cliente que deseja remover: ");
+        Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        Database db = Database.getInstance();
-        db.removeClient(id);
-        System.out.println("Cliente removido com sucesso!");
+        this.db.removeClient(id);
+        System.out.println("Cliente removido");
         System.out.println("===============");
+    }
+
+    // CRUD de Vendas
+    public void addSale() {
+        System.out.println("===============");
+        System.out.println("Adicionar Venda");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("ClienteID: ");
+        Integer clientId = scanner.nextInt();
+        Client client = this.db.getClient(clientId);
+        System.out.println("Quantidade de Produtos Diferentes: ");
+        Integer quantity = scanner.nextInt();
+        System.out.println("Para cada produto, digite seu ID e a quantidade: ");
+        Cart cart = new Cart();
+        for (int i = 0; i < quantity; i++) {
+            System.out.println("ProdutoID: ");
+            Integer productId = scanner.nextInt();
+            System.out.println("Quantidade: ");
+            Integer productQuantity = scanner.nextInt();
+
+            Product product = this.db.getProduct(productId);
+            product.setAmount(productQuantity);
+            cart.add(product);
+        }
+        System.out.println("Método de Pagamento: ");
+        String paymentMethod = scanner.nextLine();
+        this.db.addSale(client, paymentMethod, cart);
+        System.out.println("Venda adicionada");
+        System.out.println("===============");
+    }
+
+    public void listSales() {
+        System.out.println("===============");
+        System.out.println("Listar Vendas");
+        ArrayList<Sale> sales = this.db.getSales();
+        if (sales.size() == 0)
+            System.out.println("Nenhuma venda cadastrada.");
+        else {
+            System.out.println("Listando vendas");
+            for (Sale sale : sales) {
+                System.out.println("Cliente: " + sale.getClient().getName());
+                System.out.println("Data: " + sale.getData());
+                System.out.println("Valor: " + sale.getTotalValue());
+                System.out.println("Itens: " + sale.getCart().getProducts().size() + "\n");
+            }
+        }
     }
 
     public void removeSale() {
         System.out.println("===============");
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Remover Venda");
         System.out.println("Digite o ID da venda que deseja remover: ");
+        Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        Database db = Database.getInstance();
-        db.removeSale(id);
-        System.out.println("Venda removida com sucesso!");
+        this.db.removeSale(id);
+        System.out.println("Venda removida");
+        System.out.println("===============");
+    }
+
+    // CRUD de Produtos
+    public void addProduct(){
+        System.out.println("===============");
+        System.out.println("Adicionar Produto");
+        Scanner scanner = new Scanner(System.in);
+        // Código
+        System.out.println("Código: ");
+        long code = scanner.nextLong();
+        // Nome
+        System.out.println("Nome: ");
+        String name = scanner.nextLine();
+        // Descrição
+        System.out.println("Descrição: ");
+        String description = scanner.nextLine();
+        // Preço
+        System.out.println("Preço: ");
+        Double price = scanner.nextDouble();
+        // Unidade
+        System.out.println("Unidade: ");
+        String unit = scanner.nextLine();
+        // Quantidade
+        System.out.println("Quantidade: ");
+        Integer quantity = scanner.nextInt();
+
+        this.db.addProduct(code, name, description, price, unit, quantity);
+        System.out.println("Produto adicionado");
+        System.out.println("===============");
+    }
+
+    public void listProducts() {
+        System.out.println("===============");
+        System.out.println("Listar Produtos");
+        ArrayList<Product> products = this.db.getProducts();
+        if(products.size() == 0){
+            System.out.println("Nenhum produto cadastrado");
+        } else {
+            System.out.println("Listando produtos");
+            for (Product product : products) {
+                System.out.println("ID: " + product.getId());
+                System.out.println("Nome: " + product.getInfo().name);
+                System.out.println("Preço: " + product.getPrice() + "\n");
+            }
+        }
         System.out.println("===============");
     }
 
     public void removeProduct() {
         System.out.println("===============");
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Remover Produto");
         System.out.println("Digite o ID do produto que deseja remover: ");
+        Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        Database db = Database.getInstance();
-        db.removeProduct(id);
-        System.out.println("Produto removido com sucesso!");
+        this.db.removeProduct(id);
+        System.out.println("Produto removido");
         System.out.println("===============");
     }
 
@@ -150,7 +253,6 @@ public class Market {
             option = menuHome();
             switch (option) {
                 case 0:
-                    option = 0;
                     break;
                 case 1:
                     menuClient();

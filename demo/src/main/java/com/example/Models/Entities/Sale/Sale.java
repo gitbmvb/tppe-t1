@@ -11,7 +11,7 @@ import com.example.Models.ValueObject.Taxes;
 
 public class Sale {
     private static Integer idCounter = 0;
-    public Integer id = 0;
+    private Integer id = 0;
     private Date data;
     private Client client;
     private Cart cart;
@@ -19,20 +19,24 @@ public class Sale {
     private Taxes taxes = new Taxes();
     private Double totalValue = 0.0;
 
-    public Double getTotalValue() {
-        return totalValue;
-    }
-
-    public void setTotalValue(Double totalValue) {
-        this.totalValue = totalValue;
-    }
-
     public Sale(Client client, EPaymentMethod paymentMethod, Cart cart) {
         id = idCounter++;
         this.data = Date.from(Instant.now());
         this.client = client;
         this.cart = cart;
         this.paymentMethod = paymentMethod;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(Double totalValue) {
+        this.totalValue = totalValue;
     }
 
     public Double finish() {
