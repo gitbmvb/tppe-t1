@@ -3,9 +3,11 @@ package com.example.Database;
 import java.util.ArrayList;
 
 import com.example.Models.Entities.Abstract.Client;
+import com.example.Models.Entities.Cart.Cart;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Product.Product;
 import com.example.Models.Entities.Sale.Sale;
+import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.ValueObject.Address;
 import com.example.Models.ValueObject.ProductInfo;
 
@@ -41,7 +43,8 @@ public class Database {
     }
 
     public void addClient(String name, String state, String place) {
-        DefaultClient client = new DefaultClient(name, new Address(state, place));
+        // Consertar isso posteriormente
+        DefaultClient client = new DefaultClient(name, new Address(null, null));
         Clients.add(client);
     }
 
@@ -57,7 +60,7 @@ public class Database {
     // Funções de produtos
     public Product getProduct(int id) {
         for (Product product : Products) {
-            if (product.id == id)
+            if (product.getId() == id)
                 return product;
         }
         return null;
@@ -67,14 +70,15 @@ public class Database {
         return Products;
     }
 
-    public void addProduct(long code, String name, String description, Double price, String unit, int amount) {
-        Product product = new Product(new ProductInfo(code, name, description), price, unit, amount);
+    public void addProduct(Integer code, String name, String description, Double price, String unit, int amount) {
+        ProductInfo prodinfo = new ProductInfo(code, name, description);
+        Product product = new Product(prodinfo, price, unit, amount);
         Products.add(product);
     }
 
     public void removeProduct(int id) {
         for (Product product : Products) {
-            if (product.id == id) {
+            if (product.getId() == id) {
                 Products.remove(product);
                 break;
             }
@@ -93,7 +97,7 @@ public class Database {
 
     public void removeSale(int id) {
         for (Sale sale : Sales) {
-            if (sale.id == id) {
+            if (sale.getId() == id) {
                 Sales.remove(sale);
                 break;
             }

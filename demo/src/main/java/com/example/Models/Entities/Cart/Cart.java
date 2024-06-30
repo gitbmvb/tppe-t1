@@ -1,8 +1,6 @@
 package com.example.Models.Entities.Cart;
 
 import java.util.ArrayList;
-
-import com.example.Models.Entities.Abstract.Client;
 import com.example.Models.Entities.Product.Product;
 
 public class Cart {
@@ -11,12 +9,16 @@ public class Cart {
     public ArrayList<Product> products;
     public Double totalValue = 0.0;
 
-    public Cart(Client client) {
+    public Cart() {
         id = idCounter++;
         this.products = new ArrayList<Product>();
     }
 
     public void add(Product p) {
         this.products.add(p);
+    }
+
+    public ArrayList<Product> getProducts() {
+        return this.products;
     }
 }

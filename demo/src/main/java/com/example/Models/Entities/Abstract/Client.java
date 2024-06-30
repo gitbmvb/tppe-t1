@@ -28,7 +28,7 @@ public abstract class Client {
         id = idCounter++;
         this.name = name;
         this.address = address;
-        this.cart = new Cart(this);
+        this.cart = new Cart();
     }
 
     // talvez de errado por fazer referencia ao endereco do objeto no if e da funcao

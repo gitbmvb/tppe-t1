@@ -13,6 +13,7 @@ public class Menu {
         this.options = options;
         this.options.add(0, "Voltar/Sair");
         System.out.println("===============");
+        System.out.println(this.title);
         for (int i = 0; i < options.size(); i++) {
             System.out.println(i + " - " + options.get(i));
         }

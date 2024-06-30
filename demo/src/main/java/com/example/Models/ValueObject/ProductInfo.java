@@ -1,11 +1,11 @@
 package com.example.Models.ValueObject;
 
 public class ProductInfo {
-    private long code;
+    private Integer code;
     private String name;
     private String description;
 
-    public ProductInfo(long code, String name, String description) {
+    public ProductInfo(Integer code, String name, String description) {
         this.code = code;
         this.name = name;
         this.description = description;
@@ -15,7 +15,7 @@ public class ProductInfo {
         return code;
     }
 
-    public void setCode(long code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

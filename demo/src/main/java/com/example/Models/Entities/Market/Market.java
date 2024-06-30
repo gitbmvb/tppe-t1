@@ -3,15 +3,12 @@ package com.example.Models.Entities.Market;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-
 import com.example.Database.Database;
-import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Menu.Menu;
-
-import demo.src.main.java.com.example.Models.Entities.Abstract.Client;
-import demo.src.main.java.com.example.Models.Entities.Cart.Cart;
-import demo.src.main.java.com.example.Models.Entities.Product.Product;
-import demo.src.main.java.com.example.Models.Entities.Sale.Sale;
+import com.example.Models.Entities.Abstract.Client;
+import com.example.Models.Entities.Cart.Cart;
+import com.example.Models.Entities.Product.Product;
+import com.example.Models.Entities.Sale.Sale;
 
 public class Market {
     private Database db = Database.getInstance();
@@ -137,7 +134,6 @@ public class Market {
         System.out.println("===============");
         System.out.println("Adicionar Venda");
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("ClienteID: ");
         Integer clientId = scanner.nextInt();
         Client client = this.db.getClient(clientId);
@@ -157,7 +153,8 @@ public class Market {
         }
         System.out.println("Método de Pagamento: ");
         String paymentMethod = scanner.nextLine();
-        this.db.addSale(client, paymentMethod, cart);
+        // Consertar isto posteriormente
+        this.db.addSale(client, cart, null);
         System.out.println("Venda adicionada");
         System.out.println("===============");
     }
@@ -197,7 +194,8 @@ public class Market {
         Scanner scanner = new Scanner(System.in);
         // Código
         System.out.println("Código: ");
-        long code = scanner.nextLong();
+        Integer code = scanner.nextInt();
+        scanner.nextLine();
         // Nome
         System.out.println("Nome: ");
         String name = scanner.nextLine();
@@ -207,14 +205,15 @@ public class Market {
         // Preço
         System.out.println("Preço: ");
         Double price = scanner.nextDouble();
+        scanner.nextLine();
         // Unidade
         System.out.println("Unidade: ");
         String unit = scanner.nextLine();
         // Quantidade
         System.out.println("Quantidade: ");
         Integer quantity = scanner.nextInt();
-
-        this.db.addProduct(code, name, description, price, unit, quantity);
+        scanner.nextLine();
+        this.db.addProduct(code, name, description, price, unit, quantity);        
         System.out.println("Produto adicionado");
         System.out.println("===============");
     }
@@ -229,7 +228,7 @@ public class Market {
             System.out.println("Listando produtos");
             for (Product product : products) {
                 System.out.println("ID: " + product.getId());
-                System.out.println("Nome: " + product.getInfo().name);
+                System.out.println("Nome: " + product.getInfo().getName());
                 System.out.println("Preço: " + product.getPrice() + "\n");
             }
         }
