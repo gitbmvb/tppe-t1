@@ -79,9 +79,9 @@ public class Database {
         return Products;
     }
 
-    public void addProduct(Integer code, String name, String description, Double price, String unit, int amount) {
+    public void addProduct(Integer code, String name, String description, Double price, String unit) {
         ProductInfo prodinfo = new ProductInfo(code, name, description);
-        Product product = new Product(prodinfo, price, unit, amount);
+        Product product = new Product(prodinfo, price, unit, 0);
         Products.add(product);
     }
 
@@ -91,6 +91,22 @@ public class Database {
                 return true;
         }
         return false;
+    }
+
+    public Boolean checkIfProductExistsByCode(int code) {
+        for (Product product : Products) {
+            if (product.getInfo().getCode() == code)
+                return true;
+        }
+        return false;
+    }
+
+    public Product getProductByCode(int code){
+        for (Product product : Products) {
+            if (product.getInfo().getCode() == code)
+                return product;
+        }
+        return null;
     }
 
     public void removeProduct(int id) {
@@ -110,6 +126,14 @@ public class Database {
     public void addSale(Client client, Cart cart, EPaymentMethod paymentMethod) {
         Sale sale = new Sale(client, paymentMethod, cart);
         Sales.add(sale);
+    }
+
+    public Boolean checkIfSaleExists(int id) {
+        for (Sale sale : Sales) {
+            if (sale.getId() == id)
+                return true;
+        }
+        return false;
     }
 
     public void removeSale(int id) {

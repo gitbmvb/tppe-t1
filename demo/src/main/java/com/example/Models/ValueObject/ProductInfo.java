@@ -11,7 +11,7 @@ public class ProductInfo {
         this.description = description;
     }
 
-    public long getCode() {
+    public Integer getCode() {
         return code;
     }
 
