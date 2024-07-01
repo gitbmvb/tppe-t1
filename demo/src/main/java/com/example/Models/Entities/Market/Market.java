@@ -204,6 +204,7 @@ public class Market {
             Product product = this.db.getProductByCode(productCode);
             product.setAmount(productQuantity);
             cart.add(product);
+            cart.totalItens += productQuantity;
         }
         System.out.println("Pagamento [CreditCard, Pix, CashBack]: ");
         EPaymentMethod paymentMethod;

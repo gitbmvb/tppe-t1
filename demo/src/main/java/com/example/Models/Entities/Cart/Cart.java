@@ -7,6 +7,7 @@ public class Cart {
     private static Integer idCounter = 0;
     public Integer id = 0;
     public ArrayList<Product> products;
+    public Integer totalItens = 0;
     public Double totalValue = 0.0;
 
     public Cart() {
@@ -21,4 +22,6 @@ public class Cart {
     public ArrayList<Product> getProducts() {
         return this.products;
     }
+
+    
 }

@@ -35,8 +35,11 @@ public class Sale {
         return totalValue;
     }
 
-    public void setTotalValue(Double totalValue) {
-        this.totalValue = totalValue;
+    public void setTotalValue() {
+        for(Product p : cart.products) {
+            taxes.calculateTaxes(client.getAddress(), p.getPrice());
+            totalValue += (p.getPrice() * p.getAmount());
+        }
     }
 
     public Double finish() {

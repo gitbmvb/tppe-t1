@@ -125,6 +125,7 @@ public class Database {
 
     public void addSale(Client client, Cart cart, EPaymentMethod paymentMethod) {
         Sale sale = new Sale(client, paymentMethod, cart);
+        sale.setTotalValue();
         Sales.add(sale);
     }
 
