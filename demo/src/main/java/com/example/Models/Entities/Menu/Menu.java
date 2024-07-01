@@ -15,7 +15,7 @@ public class Menu {
         System.out.println("===============");
         System.out.println(this.title);
         for (int i = 0; i < options.size(); i++) {
-            System.out.println(i + " - " + options.get(i));
+            System.out.println("[" + i + "] " + options.get(i));
         }
         System.out.println("===============");
     }
@@ -32,7 +32,7 @@ public class Menu {
         System.out.println("Opção: ");
         Scanner scanner = new Scanner(System.in);
         this.selectedOption = scanner.nextInt();
-        scanner.close();
+        // // scanner.close();
     }
 
     public String getTitle() {

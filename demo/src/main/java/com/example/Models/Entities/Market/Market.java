@@ -16,14 +16,28 @@ import com.example.Models.Enums.EState;
 public class Market {
     private Database db = Database.getInstance();
 
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public void pressEnterToContinue(String message) {
+        System.out.println(message);
+        System.out.println("\nAperte Enter para continuar...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+
     // Menus
     public Integer menuHome() {
+        clearScreen();
         Menu menu = new Menu("Menu Principal", new ArrayList<>(Arrays.asList("Cliente", "Vendas", "Produtos")));
         menu.setSelectedOption();
         return menu.getSelectedOption();
     }
 
     public void menuClient() {
+        clearScreen();
         Menu menu = new Menu("Menu do Cliente", new ArrayList<>(Arrays.asList("Listar", "Adicionar", "Deletar")));
         menu.setSelectedOption();
         switch (menu.getSelectedOption()) {
@@ -45,6 +59,7 @@ public class Market {
     }
 
     public void menuSales() {
+        clearScreen();
         Menu menu = new Menu("Menu de Vendas", new ArrayList<>(Arrays.asList("Listar", "Adicionar", "Deletar")));
         menu.setSelectedOption();
         switch (menu.getSelectedOption()) {
@@ -66,6 +81,7 @@ public class Market {
     }
 
     public void menuProduct() {
+        clearScreen();
         Menu menu = new Menu("Menu de Produtos", new ArrayList<>(Arrays.asList("Listar", "Adicionar", "Deletar")));
         menu.setSelectedOption();
         switch (menu.getSelectedOption()) {
@@ -88,21 +104,23 @@ public class Market {
 
     // CRUD de Clientes
     public void listClients() {
+        clearScreen();
         System.out.println("===============");
-        System.out.println("Listar Clientes");
+        System.out.println("Lista de Clientes");
         ArrayList<Client> clients = this.db.getClients();
         if(clients.size() == 0){
-            System.out.println("Nenhum cliente cadastrado");
+            System.out.println("**Nenhum cliente cadastrado**");
         } else {
-            System.out.println("Listando clientes");
             for (Client client : clients) {
                 System.out.println("ID: " + client.getId());
                 System.out.println("Nome: " + client.getName() + "\n");
             }
         }
+        pressEnterToContinue("");
     }
 
     public void addClient() {
+        clearScreen();
         System.out.println("===============");
         System.out.println("Adicionar Cliente");
         Scanner scanner = new Scanner(System.in);
@@ -116,7 +134,7 @@ public class Market {
             stateEnum = EState.valueOf(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             System.out.println("Estado inválido! Operação cancelada.");
-            scanner.close();
+            // scanner.close();
             return;
         }
         // Lugar
@@ -126,25 +144,28 @@ public class Market {
             placeEnum = EAddressPlace.valueOf(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             System.out.println("Lugar inválido! Operação cancelada.");
-            scanner.close();
+            // scanner.close();
             return;
         }
-        scanner.close();
+        // scanner.close();
         this.db.addClient(name, stateEnum, placeEnum);
-        System.out.println("Cliente adicionado");
-        System.out.println("===============");
+        clearScreen();
+        pressEnterToContinue("Cliente " + name + " adicionado!");
     }
 
     public void removeClient() {
+        clearScreen();
         System.out.println("===============");
         System.out.println("Remover Cliente");
         System.out.println("Digite o ID do cliente que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        scanner.close();
-        this.db.removeClient(id);
-        System.out.println("Cliente removido");
-        System.out.println("===============");
+        if (this.db.checkIfClientExists(id)){
+            this.db.removeClient(id);
+            pressEnterToContinue("O cliente foi removido com sucesso!");
+        } else {
+            pressEnterToContinue("Cliente não encontrado!");
+        }
     }
 
     // CRUD de Vendas
@@ -175,10 +196,10 @@ public class Market {
             paymentMethod = EPaymentMethod.valueOf(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             System.out.println("Método de pagamento inválido! Operação cancelada.");
-            scanner.close();
+            // scanner.close();
             return;
         }
-        scanner.close();
+        // scanner.close();
         this.db.addSale(client, cart, paymentMethod);
         System.out.println("Venda adicionada");
         System.out.println("===============");
@@ -207,7 +228,7 @@ public class Market {
         System.out.println("Digite o ID da venda que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        scanner.close();
+        // scanner.close();
         this.db.removeSale(id);
         System.out.println("Venda removida");
         System.out.println("===============");
@@ -239,7 +260,7 @@ public class Market {
         System.out.println("Quantidade: ");
         Integer quantity = scanner.nextInt();
         scanner.nextLine();
-        scanner.close();
+        // scanner.close();
         this.db.addProduct(code, name, description, price, unit, quantity);        
         System.out.println("Produto adicionado");
         System.out.println("===============");
@@ -268,7 +289,7 @@ public class Market {
         System.out.println("Digite o ID do produto que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        scanner.close();
+        // scanner.close();
         this.db.removeProduct(id);
         System.out.println("Produto removido");
         System.out.println("===============");

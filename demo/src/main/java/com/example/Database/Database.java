@@ -49,6 +49,14 @@ public class Database {
         Clients.add(client);
     }
 
+    public Boolean checkIfClientExists(int id) {
+        for (Client client : Clients) {
+            if (client.getId() == id)
+                return true;
+        }
+        return false;
+    }
+
     public void removeClient(int id) {
         for (Client client : Clients) {
             if (client.getId() == id) {
