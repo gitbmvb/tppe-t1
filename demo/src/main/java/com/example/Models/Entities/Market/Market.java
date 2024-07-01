@@ -21,6 +21,11 @@ public class Market {
         System.out.flush();
     }
 
+    public void showTitle(String title){
+        System.out.println("===============");
+        System.out.println(title);
+    }
+
     public void pressEnterToContinue(String message) {
         System.out.println(message);
         System.out.println("\nAperte Enter para continuar...");
@@ -105,8 +110,7 @@ public class Market {
     // CRUD de Clientes
     public void listClients() {
         clearScreen();
-        System.out.println("===============");
-        System.out.println("Lista de Clientes");
+        showTitle("Lista de Clientes");
         ArrayList<Client> clients = this.db.getClients();
         if(clients.size() == 0){
             System.out.println("**Nenhum cliente cadastrado**");
@@ -121,8 +125,7 @@ public class Market {
 
     public void addClient() {
         clearScreen();
-        System.out.println("===============");
-        System.out.println("Adicionar Cliente");
+        showTitle("Adicionar Cliente");
         Scanner scanner = new Scanner(System.in);
         // Nome
         System.out.println("Nome: ");
@@ -236,8 +239,8 @@ public class Market {
 
     // CRUD de Produtos
     public void addProduct(){
-        System.out.println("===============");
-        System.out.println("Adicionar Produto");
+        clearScreen();
+        showTitle("Adicionar Produto");
         Scanner scanner = new Scanner(System.in);
         // Código
         System.out.println("Código: ");
@@ -260,15 +263,13 @@ public class Market {
         System.out.println("Quantidade: ");
         Integer quantity = scanner.nextInt();
         scanner.nextLine();
-        // scanner.close();
-        this.db.addProduct(code, name, description, price, unit, quantity);        
-        System.out.println("Produto adicionado");
-        System.out.println("===============");
+        this.db.addProduct(code, name, description, price, unit, quantity);
+        pressEnterToContinue("Produto adicionado!");
     }
 
     public void listProducts() {
-        System.out.println("===============");
-        System.out.println("Listar Produtos");
+        clearScreen();
+        showTitle("Listar Produtos");
         ArrayList<Product> products = this.db.getProducts();
         if(products.size() == 0){
             System.out.println("Nenhum produto cadastrado");
@@ -280,19 +281,21 @@ public class Market {
                 System.out.println("Preço: " + product.getPrice() + "\n");
             }
         }
-        System.out.println("===============");
+        pressEnterToContinue("");
     }
 
     public void removeProduct() {
-        System.out.println("===============");
-        System.out.println("Remover Produto");
+        clearScreen();
+        showTitle("Remover Produto");
         System.out.println("Digite o ID do produto que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
-        // scanner.close();
-        this.db.removeProduct(id);
-        System.out.println("Produto removido");
-        System.out.println("===============");
+        if(this.db.checkIfProductExists(id)){
+            this.db.removeProduct(id);
+            pressEnterToContinue("Produto removido!");
+        } else {
+            pressEnterToContinue("Produto não encontrado!");
+        }
     }
 
     public void run() {

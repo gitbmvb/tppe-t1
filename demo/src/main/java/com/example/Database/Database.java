@@ -85,6 +85,14 @@ public class Database {
         Products.add(product);
     }
 
+    public Boolean checkIfProductExists(int id) {
+        for (Product product : Products) {
+            if (product.getId() == id)
+                return true;
+        }
+        return false;
+    }
+
     public void removeProduct(int id) {
         for (Product product : Products) {
             if (product.getId() == id) {
