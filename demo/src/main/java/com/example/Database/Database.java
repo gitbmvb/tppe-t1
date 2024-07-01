@@ -7,7 +7,9 @@ import com.example.Models.Entities.Cart.Cart;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Product.Product;
 import com.example.Models.Entities.Sale.Sale;
+import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EPaymentMethod;
+import com.example.Models.Enums.EState;
 import com.example.Models.ValueObject.Address;
 import com.example.Models.ValueObject.ProductInfo;
 
@@ -42,9 +44,8 @@ public class Database {
         return Clients;
     }
 
-    public void addClient(String name, String state, String place) {
-        // Consertar isso posteriormente
-        DefaultClient client = new DefaultClient(name, new Address(null, null));
+    public void addClient(String name, EState state, EAddressPlace place) {
+        DefaultClient client = new DefaultClient(name, new Address(state, place));
         Clients.add(client);
     }
 

@@ -32,6 +32,7 @@ public class Menu {
         System.out.println("Opção: ");
         Scanner scanner = new Scanner(System.in);
         this.selectedOption = scanner.nextInt();
+        scanner.close();
     }
 
     public String getTitle() {

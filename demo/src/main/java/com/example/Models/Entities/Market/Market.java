@@ -9,6 +9,9 @@ import com.example.Models.Entities.Abstract.Client;
 import com.example.Models.Entities.Cart.Cart;
 import com.example.Models.Entities.Product.Product;
 import com.example.Models.Entities.Sale.Sale;
+import com.example.Models.Enums.EAddressPlace;
+import com.example.Models.Enums.EPaymentMethod;
+import com.example.Models.Enums.EState;
 
 public class Market {
     private Database db = Database.getInstance();
@@ -107,13 +110,27 @@ public class Market {
         System.out.println("Nome: ");
         String name = scanner.nextLine();
         // Estado
-        System.out.println("Estado: ");
-        String state = scanner.nextLine();
+        System.out.println("Estado (Sigla): ");
+        EState stateEnum;
+        try {
+            stateEnum = EState.valueOf(scanner.nextLine());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Estado inválido! Operação cancelada.");
+            scanner.close();
+            return;
+        }
         // Lugar
-        System.out.println("Lugar: ");
-        String place = scanner.nextLine();
-
-        this.db.addClient(name, state, place);
+        System.out.println("Lugar [Capital/Interior]: ");
+        EAddressPlace placeEnum;
+        try {
+            placeEnum = EAddressPlace.valueOf(scanner.nextLine());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Lugar inválido! Operação cancelada.");
+            scanner.close();
+            return;
+        }
+        scanner.close();
+        this.db.addClient(name, stateEnum, placeEnum);
         System.out.println("Cliente adicionado");
         System.out.println("===============");
     }
@@ -124,6 +141,7 @@ public class Market {
         System.out.println("Digite o ID do cliente que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
+        scanner.close();
         this.db.removeClient(id);
         System.out.println("Cliente removido");
         System.out.println("===============");
@@ -151,10 +169,17 @@ public class Market {
             product.setAmount(productQuantity);
             cart.add(product);
         }
-        System.out.println("Método de Pagamento: ");
-        String paymentMethod = scanner.nextLine();
-        // Consertar isto posteriormente
-        this.db.addSale(client, cart, null);
+        System.out.println("Pagamento [CreditCard, Pix, CashBack]: ");
+        EPaymentMethod paymentMethod;
+        try {
+            paymentMethod = EPaymentMethod.valueOf(scanner.nextLine());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Método de pagamento inválido! Operação cancelada.");
+            scanner.close();
+            return;
+        }
+        scanner.close();
+        this.db.addSale(client, cart, paymentMethod);
         System.out.println("Venda adicionada");
         System.out.println("===============");
     }
@@ -182,6 +207,7 @@ public class Market {
         System.out.println("Digite o ID da venda que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
+        scanner.close();
         this.db.removeSale(id);
         System.out.println("Venda removida");
         System.out.println("===============");
@@ -213,6 +239,7 @@ public class Market {
         System.out.println("Quantidade: ");
         Integer quantity = scanner.nextInt();
         scanner.nextLine();
+        scanner.close();
         this.db.addProduct(code, name, description, price, unit, quantity);        
         System.out.println("Produto adicionado");
         System.out.println("===============");
@@ -241,6 +268,7 @@ public class Market {
         System.out.println("Digite o ID do produto que deseja remover: ");
         Scanner scanner = new Scanner(System.in);
         Integer id = scanner.nextInt();
+        scanner.close();
         this.db.removeProduct(id);
         System.out.println("Produto removido");
         System.out.println("===============");
