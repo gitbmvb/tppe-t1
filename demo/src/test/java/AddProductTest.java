@@ -1,6 +1,4 @@
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.After;
@@ -12,7 +10,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.example.Database.Database;
 
 @RunWith(Parameterized.class)
-public class AddProduct {
+public class AddProductTest {
 
     private Database db;
     private int code;
@@ -22,7 +20,7 @@ public class AddProduct {
     private String unit;
     private int amount;
 
-    public AddProduct(int code, String name, String description, Double price, String unit, int amount, int result) {
+    public AddProductTest(int code, String name, String description, Double price, String unit, int amount, int result) {
         this.code = code;
         this.name = name;
         this.description = description;

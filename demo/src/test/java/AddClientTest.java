@@ -14,7 +14,7 @@ import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EState;
 
 @RunWith(Parameterized.class)
-public class AddClient {
+public class AddClientTest {
 
     public Database db;
     public EState state;
@@ -22,7 +22,7 @@ public class AddClient {
     public String name;
     public Integer result;
 
-    public AddClient(EState state, EAddressPlace address, String name, int result) {
+    public AddClientTest(EState state, EAddressPlace address, String name, int result) {
         this.state = state;
         this.address = address;
         this.name = name;

@@ -8,7 +8,7 @@ public class Product {
     private ProductInfo Info;
     private Double price;
     private String unit;
-    private int amount;
+    private Integer amount;
 
     public Product(ProductInfo info, Double price, String unit, int amount) {
         id = idCounter++;
@@ -16,6 +16,22 @@ public class Product {
         this.unit = unit;
         this.amount = amount;
         this.Info = info;
+    }
+
+    public void setInfo(ProductInfo info) {
+        Info = info;
+    }
+    
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Integer getId() {
@@ -26,17 +42,11 @@ public class Product {
         return Info;
     }
 
-    public void setInfo(ProductInfo info) {
-        Info = info;
-    }
 
     public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public String getUnit() {
         return unit;
@@ -44,9 +54,5 @@ public class Product {
 
     public int getAmount() {
         return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 }

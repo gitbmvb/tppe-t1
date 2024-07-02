@@ -4,13 +4,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
-
 import com.example.Database.Database;
 import com.example.Models.Entities.Cart.Cart;
 import com.example.Models.Entities.Product.Product;
 import com.example.Models.Entities.Sale.Sale;
 import com.example.Models.Enums.EClientType;
-import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.ValueObject.Address;
 import com.example.Models.ValueObject.CreditCard;
 
@@ -24,15 +22,13 @@ public abstract class Client {
     protected EClientType type = EClientType.Default;
     protected Double cashBack = 0.0;
 
-    public Client(String name, Address address) {
+    public Client(String name, Address address, Cart cart) {
         id = idCounter++;
         this.name = name;
         this.address = address;
-        this.cart = new Cart();
+        this.cart = cart;
     }
 
-    // talvez de errado por fazer referencia ao endereco do objeto no if e da funcao
-    // deprecada
     public boolean isNowSpecial() {
         Database db = Database.getInstance();
         ArrayList<Sale> sales = db.getSales();
@@ -48,9 +44,9 @@ public abstract class Client {
         this.cart.add(p);
     }
 
-    public Sale BuyCart(EPaymentMethod paymentMethod) {
-        return new Sale(this, paymentMethod, cart);
-    }
+    // public Sale BuyCart(EPaymentMethod paymentMethod) {
+    //     return new Sale(this, paymentMethod, cart);
+    // }
 
     public Double addCashback(Double value) {
         return this.cashBack;
@@ -116,5 +112,9 @@ public abstract class Client {
 
     public void setType(EClientType type) {
         this.type = type;
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 }
