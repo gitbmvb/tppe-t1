@@ -1,4 +1,6 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.After;
@@ -35,8 +37,7 @@ public class AddProduct {
     @Parameters
     public static Collection<Object[]> getParameters() {
         Object[][] parameters = new Object[][] {
-                { 10, "Teclado Gamer", "Um teclado gamer",
-                        140.0f, "unidade", 3, 1 }
+                {10, "Teclado Gamer", "Um teclado gamer", 140, "item", 1 }
         };
 
         return Arrays.asList(parameters);
@@ -54,7 +55,7 @@ public class AddProduct {
 
     @Test
     public void registerAProduct() {
-        this.db.addProduct(code, name, description, price, unit);
-        assertEquals(this.db.getProducts().size(), result);
+        db.addProduct(code, name, description, price, unit, amount);
+        assertTrue(db.getProducts().size() == result);
     }
 }
