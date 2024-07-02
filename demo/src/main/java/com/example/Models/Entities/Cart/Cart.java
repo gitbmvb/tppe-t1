@@ -6,23 +6,22 @@ import com.example.Models.Entities.Product.Product;
 public class Cart {
     private static Integer idCounter = 0;
     public Integer id = 0;
-    public ArrayList<Product> products;
+    public ArrayList<Product> products = new ArrayList<Product>();
     public Integer totalItens = 0;
     public Double totalValue = 0.0;
 
-    public Cart(ArrayList<Product> products) {
+    public Cart() {
         id = idCounter++;
-        this.products = products;
     }
 
     public void setTotalValue() {
-        for(Product p : products) {
+        for (Product p : products) {
             totalValue += (p.getPrice() * p.getAmount());
         }
     }
 
     public void setTotalItens() {
-        for(Product p : products) {
+        for (Product p : products) {
             totalItens += p.getAmount();
         }
     }
@@ -47,5 +46,4 @@ public class Cart {
         return this.products;
     }
 
-    
 }

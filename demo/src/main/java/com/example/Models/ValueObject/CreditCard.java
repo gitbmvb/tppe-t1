@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import com.example.Models.Exceptions.InvalidFormatException;
 
 public class CreditCard {
-    private String number;
+    private String number = "";
     String regex = "^4296 13\\d{2} \\d{4} \\d{4}$";
     Pattern pattern = Pattern.compile(regex);
 

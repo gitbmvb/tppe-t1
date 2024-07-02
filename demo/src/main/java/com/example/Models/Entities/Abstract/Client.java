@@ -18,15 +18,14 @@ public abstract class Client {
     private String name;
     private Address address;
     private CreditCard creditCard;
-    private Cart cart;
+    private Cart cart = new Cart();
     protected EClientType type = EClientType.Default;
     protected Double cashBack = 0.0;
 
-    public Client(String name, Address address, Cart cart) {
+    public Client(String name, Address address) {
         id = idCounter++;
         this.name = name;
         this.address = address;
-        this.cart = cart;
     }
 
     @SuppressWarnings("deprecation")

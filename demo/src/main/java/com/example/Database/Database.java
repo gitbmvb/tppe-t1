@@ -39,23 +39,27 @@ public class Database {
         }
         return null;
     }
-    
+
     public ArrayList<Client> getClients() {
         return Clients;
     }
 
+    public void addClient(Client c) {
+        Clients.add(c);
+    }
+
     public void addClient(String name, EState state, EAddressPlace place) {
-        DefaultClient client = new DefaultClient(name, new Address(state, place), new Cart(new ArrayList<Product>()));
+        DefaultClient client = new DefaultClient(name, new Address(state, place));
         Clients.add(client);
     }
 
     public void addDefaultClient(String name, EState state, EAddressPlace place) {
-        DefaultClient client = new DefaultClient(name, new Address(state, place), new Cart(new ArrayList<Product>()));
+        DefaultClient client = new DefaultClient(name, new Address(state, place));
         Clients.add(client);
     }
 
     public void addPrimeClient(String name, EState state, EAddressPlace place) {
-        PrimeClient client = new PrimeClient(name, new Address(state, place), new Cart(new ArrayList<Product>()));
+        PrimeClient client = new PrimeClient(name, new Address(state, place));
         Clients.add(client);
     }
 
@@ -111,7 +115,7 @@ public class Database {
         return false;
     }
 
-    public Product getProductByCode(int code){
+    public Product getProductByCode(int code) {
         for (Product product : Products) {
             if (product.getInfo().getCode() == code)
                 return product;

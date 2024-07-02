@@ -1,14 +1,15 @@
 package com.example.Models.Entities.Client;
 
 import com.example.Models.Entities.Abstract.Client;
-import com.example.Models.Entities.Cart.Cart;
+import com.example.Models.Enums.EClientType;
 import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.ValueObject.Address;
 
 public class PrimeClient extends Client {
 
-    public PrimeClient(String name, Address address, Cart cart) {
-        super(name, address, cart);
+    public PrimeClient(String name, Address address) {
+        super(name, address);
+        this.type = EClientType.Prime;
     }
 
     public void ManipulateCashback(EPaymentMethod method, Double value) {

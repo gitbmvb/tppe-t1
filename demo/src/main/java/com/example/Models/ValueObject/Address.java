@@ -22,7 +22,9 @@ public class Address {
                 return 15.0;
             if (state.getRegion() == 3)
                 return 7.0;
-            if (state.getRegion() == 4 || state.getRegion() == 5)
+            if (state.getRegion() == 4)
+                return 10.0;
+            if (state.getRegion() == 5)
                 return 10.0;
         }
         if (place == EAddressPlace.Inside) {
@@ -32,7 +34,9 @@ public class Address {
                 return 18.0;
             if (state.getRegion() == 3)
                 return 10.0;
-            if (state.getRegion() == 4 || state.getRegion() == 5)
+            if (state.getRegion() == 4)
+                return 13.0;
+            if (state.getRegion() == 5)
                 return 13.0;
         }
         return 0.0;

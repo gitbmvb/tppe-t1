@@ -1,17 +1,23 @@
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import com.example.Database.Database;
+import com.example.Models.Entities.Abstract.Client;
+import com.example.Models.Entities.Client.DefaultClient;
+import com.example.Models.Entities.Client.PrimeClient;
+import com.example.Models.Entities.Client.SpecialClient;
 import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EState;
+import com.example.Models.ValueObject.Address;
 
 @RunWith(Parameterized.class)
 public class ClientTest {
@@ -21,8 +27,11 @@ public class ClientTest {
     public EAddressPlace address;
     public String name;
     public Integer result;
+    public Class<? extends Client> clientClass;
 
-    public ClientTest(EState state, EAddressPlace address, String name, int result) {
+    public ClientTest(Class<? extends Client> clientClass, EState state, EAddressPlace address, String name,
+            int result) {
+        this.clientClass = clientClass;
         this.state = state;
         this.address = address;
         this.name = name;
@@ -32,10 +41,10 @@ public class ClientTest {
     @Parameters
     public static Collection<Object[]> getParameters() {
         Object[][] parameters = new Object[][] {
-                { EState.MG, EAddressPlace.Capital, "André Lanna", 1 },
-                { EState.BA, EAddressPlace.Inside, "Kyllian Mbappe", 1 },
-                { EState.DF, EAddressPlace.Capital, "Kvaratskelia", 1 },
-                { EState.DF, EAddressPlace.Inside, "André Balada", 1 }
+                { DefaultClient.class, EState.MG, EAddressPlace.Capital, "André Lanna", 1 },
+                { PrimeClient.class, EState.BA, EAddressPlace.Inside, "Kyllian Mbappe", 2 },
+                { SpecialClient.class, EState.DF, EAddressPlace.Capital, "Kvaratskelia", 3 },
+                { DefaultClient.class, EState.DF, EAddressPlace.Inside, "André Balada", 4 }
         };
 
         return Arrays.asList(parameters);
@@ -46,20 +55,13 @@ public class ClientTest {
         this.db = Database.getInstance();
     }
 
-    @After
-    public void cleanDb() {
-        this.db.getClients().clear();
-    }
-
     @Test
-    public void registerADefaultClient() {
-        db.addDefaultClient(name, state, address);
+    public void registerADefaultClient() throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, Address.class);
+        Client c = constructor.newInstance(name, new Address(state, address));
+        db.addClient(c);
         assertTrue(db.getClients().size() == result);
     }
 
-    @Test
-    public void registerAPrimeClient() {
-        db.addPrimeClient(name, state, address);
-        assertTrue(db.getClients().size() == result);
-    }
 }
