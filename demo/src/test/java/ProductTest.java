@@ -10,7 +10,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.example.Database.Database;
 
 @RunWith(Parameterized.class)
-public class AddProductTest {
+public class ProductTest {
 
     private Database db;
     private int code;
@@ -19,8 +19,9 @@ public class AddProductTest {
     private Double price;
     private String unit;
     private int amount;
+    private int result;
 
-    public AddProductTest(int code, String name, String description, Double price, String unit, int amount, int result) {
+    public ProductTest(int code, String name, String description, Double price, String unit, int amount, int result) {
         this.code = code;
         this.name = name;
         this.description = description;
@@ -30,12 +31,10 @@ public class AddProductTest {
         this.result = result;
     }
 
-    private int result;
-
     @Parameters
     public static Collection<Object[]> getParameters() {
         Object[][] parameters = new Object[][] {
-                {10, "Teclado Gamer", "Um teclado gamer", 140, "item", 1 }
+            {10, "Teclado Gamer", "Um teclado gamer", 140.0, "item", 1, 1}
         };
 
         return Arrays.asList(parameters);

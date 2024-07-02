@@ -29,6 +29,7 @@ public abstract class Client {
         this.cart = cart;
     }
 
+    @SuppressWarnings("deprecation")
     public boolean isNowSpecial() {
         Database db = Database.getInstance();
         ArrayList<Sale> sales = db.getSales();
@@ -43,10 +44,6 @@ public abstract class Client {
     public void AddToCart(Product p) {
         this.cart.add(p);
     }
-
-    // public Sale BuyCart(EPaymentMethod paymentMethod) {
-    //     return new Sale(this, paymentMethod, cart);
-    // }
 
     public Double addCashback(Double value) {
         return this.cashBack;

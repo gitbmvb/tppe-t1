@@ -90,4 +90,8 @@ public class Sale {
     public void setPaymentMethod(EPaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
+
+    public Taxes getTaxes() {
+        return taxes;
+    }
 }
