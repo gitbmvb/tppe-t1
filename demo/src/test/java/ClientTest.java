@@ -63,5 +63,4 @@ public class ClientTest {
         db.addClient(c);
         assertTrue(db.getClients().size() == result);
     }
-
 }
