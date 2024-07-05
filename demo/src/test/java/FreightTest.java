@@ -1,32 +1,29 @@
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import com.example.Database.Database;
 import com.example.Models.Entities.Abstract.Client;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Client.PrimeClient;
 import com.example.Models.Entities.Product.Product;
+import com.example.Models.Entities.Sale.Sale;
 import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.Enums.EState;
 
 @RunWith(Parameterized.class)
-public class SaleTest {
-    private Database db;
+public class FreightTest {
     private Client client;
     private EPaymentMethod paymentMethod;
-    private int result;
-
-    public SaleTest(Client client, EPaymentMethod paymentMethod, int result) {
+    private Double expectedFreight;
+   
+    public FreightTest(Client client, EPaymentMethod paymentMethod, Double expectedFreight) {
         this.client = client;
         this.paymentMethod = paymentMethod;
-        this.result = result;
+        this.expectedFreight = expectedFreight;
     }
 
     @Parameters
@@ -48,29 +45,19 @@ public class SaleTest {
         client6.AddToCart(p1, p2, p3);
 
         Object[][] parameters = new Object[][] {
-                { client1, EPaymentMethod.CashBack, 1 },
-                { client2, EPaymentMethod.CreditCard, 1},
-                { client3, EPaymentMethod.Pix, 1 },
-                { client4, EPaymentMethod.CashBack, 1 },
-                { client5, EPaymentMethod.CreditCard, 1 },
-                { client6, EPaymentMethod.Pix, 1 }
+                { client1, EPaymentMethod.CashBack, 25.0 },
+                { client2, EPaymentMethod.CreditCard, 15.0 },
+                { client3, EPaymentMethod.Pix, 10.0},
+                { client4, EPaymentMethod.CashBack, 13.0 },
+                { client5, EPaymentMethod.CreditCard, 10.0 },
+                { client6, EPaymentMethod.Pix, 5.0 },
         };
         return Arrays.asList(parameters);
     }
 
-    @Before
-    public void setupDb() {
-        this.db = Database.getInstance();
-    }
-
-    @After
-    public void cleanDb() {
-        this.db.getSales().clear();
-    }
-
     @Test
-    public void registerASale() {
-        db.addSale(client, paymentMethod);
-        assertTrue(db.getSales().size() == result);
+    public void calculateFreight() {
+        Sale sale = new Sale(client, paymentMethod);
+        assertEquals(sale.calculateFreigth(), expectedFreight, 0.001);
     }
 }

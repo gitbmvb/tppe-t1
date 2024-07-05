@@ -1,10 +1,8 @@
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,50 +15,46 @@ import com.example.Models.Entities.Client.PrimeClient;
 import com.example.Models.Entities.Client.SpecialClient;
 import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EState;
-import com.example.Models.ValueObject.Address;
 
 @RunWith(Parameterized.class)
 public class ClientTest {
 
-    public Database db;
-    public EState state;
-    public EAddressPlace address;
-    public String name;
-    public Integer result;
-    public Class<? extends Client> clientClass;
+    private Database db;
+    private EState state;
+    private EAddressPlace address;
+    private String name;
+    private int expectedResult;
+    private Class<? extends Client> clientClass;
 
-    public ClientTest(Class<? extends Client> clientClass, EState state, EAddressPlace address, String name,
-            int result) {
+    public ClientTest(Class<? extends Client> clientClass, EState state, EAddressPlace address, String name, int expectedResult) {
         this.clientClass = clientClass;
         this.state = state;
         this.address = address;
         this.name = name;
-        this.result = result;
+        this.expectedResult = expectedResult;
     }
 
     @Parameters
     public static Collection<Object[]> getParameters() {
-        Object[][] parameters = new Object[][] {
+        return Arrays.asList(new Object[][] {
                 { DefaultClient.class, EState.MG, EAddressPlace.Capital, "André Lanna", 1 },
-                { PrimeClient.class, EState.BA, EAddressPlace.Inside, "Kyllian Mbappe", 2 },
-                { SpecialClient.class, EState.DF, EAddressPlace.Capital, "Kvaratskelia", 3 },
-                { DefaultClient.class, EState.DF, EAddressPlace.Inside, "André Balada", 4 }
-        };
-
-        return Arrays.asList(parameters);
+                { PrimeClient.class, EState.BA, EAddressPlace.Inside, "Kyllian Mbappe", 1 },
+                { SpecialClient.class, EState.DF, EAddressPlace.Capital, "Kvaratskelia", 1 },
+                { DefaultClient.class, EState.DF, EAddressPlace.Inside, "André Balada", 1 }
+        });
     }
 
     @Before
     public void setupDb() {
         this.db = Database.getInstance();
+        db.getClients().clear();
     }
 
     @Test
-    public void registerADefaultClient() throws NoSuchMethodException, SecurityException, InstantiationException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, Address.class);
-        Client c = constructor.newInstance(name, new Address(state, address));
-        db.addClient(c);
-        assertTrue(db.getClients().size() == result);
+    public void registerClient() throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, EState.class, EAddressPlace.class);
+        Client client = constructor.newInstance(name, state, address);
+        db.addClient(client);
+        assertEquals(expectedResult, db.getClients().size());
     }
 }
