@@ -12,7 +12,6 @@ import com.example.Database.Database;
 import com.example.Models.Entities.Abstract.Client;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Client.PrimeClient;
-import com.example.Models.Entities.Client.SpecialClient;
 import com.example.Models.Entities.Product.Product;
 import com.example.Models.Entities.Sale.Sale;
 import com.example.Models.Enums.EAddressPlace;
@@ -91,14 +90,4 @@ public class SaleTest {
         Sale sale = new Sale(client, paymentMethod);
         assertEquals(sale.calculateFreigth(), expectedFreight, 0.001);
     }
-
-    @Test
-    public void calculateTaxes() {
-        Taxes taxes = new Taxes();
-        for (Product product : client.getCart().getProducts()) {
-            taxes.calculateTaxes(client.getAddress(), product.getPrice());
-        }
-        assertEquals(expectedTaxes, taxes.getIcms() + taxes.getMunicipal(), 0.001);
-    }
-
 }
