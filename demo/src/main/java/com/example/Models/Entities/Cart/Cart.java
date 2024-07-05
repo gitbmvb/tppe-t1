@@ -8,14 +8,9 @@ public class Cart {
     private Integer id = 0;
     private ArrayList<Product> products = new ArrayList<Product>();
     private Integer totalItens = 0;
-    private Double totalValue = 0.0;
 
     public Cart() {
         id = idCounter++;
-    }
-
-    public void setTotalValue(Double totalValue) {
-        this.totalValue = totalValue;
     }
 
     public void setTotalItens(Integer totalItens) {
@@ -28,10 +23,6 @@ public class Cart {
 
     public Integer getTotalItens() {
         return totalItens;
-    }
-
-    public Double getTotalValue() {
-        return totalValue;
     }
 
     public void add(Product p) {

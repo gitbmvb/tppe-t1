@@ -47,7 +47,6 @@ public abstract class Client {
         for(Product p : product){
             this.cart.add(p);
             this.cart.setTotalItens(this.cart.getTotalItens() + p.getAmount());
-            this.cart.setTotalValue(this.cart.getTotalValue() + p.getPrice() * p.getAmount());
         }
     }
 

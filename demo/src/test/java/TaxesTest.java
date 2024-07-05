@@ -74,16 +74,19 @@ public class TaxesTest {
     @Test
     public void calculateICMS() {
         Sale sale = new Sale(client, paymentMethod);
+        sale.setTotalValue();
         EState state = sale.getClient().getAddress().getState();
-        Double value = sale.getClient().getCart().getTotalValue();
+        Double value = sale.getTotalValue();
         assertEquals(expectedICMS, sale.getTaxes().calculateICMS(state, value), 0.001);
     }
 
     @Test
     public void calculateMunicipal() {
         Sale sale = new Sale(client, paymentMethod);
+        sale.setTotalValue();
         EState state = sale.getClient().getAddress().getState();
-        Double value = sale.getClient().getCart().getTotalValue();
+        Double value = sale.getTotalValue();
+        System.out.println("state = " + state + " value = " + value);
         assertEquals(expectedMunicipal, sale.getTaxes().calculateMunicipal(state, value), 0.001);
     }
 }
