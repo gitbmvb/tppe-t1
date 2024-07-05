@@ -10,12 +10,12 @@ public class Product {
     private String unit;
     private Integer amount;
 
-    public Product(ProductInfo info, Double price, String unit, int amount) {
+    public Product(Integer code, String name, String description, Double price, String unit, int amount) {
         id = idCounter++;
         this.price = price;
         this.unit = unit;
         this.amount = amount;
-        this.Info = info;
+        this.Info = new ProductInfo(code, name, description);
     }
 
     public void setInfo(ProductInfo info) {
