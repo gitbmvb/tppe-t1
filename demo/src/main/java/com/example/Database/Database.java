@@ -2,7 +2,6 @@ package com.example.Database;
 
 import java.util.ArrayList;
 import com.example.Models.Entities.Abstract.Client;
-import com.example.Models.Entities.Cart.Cart;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Client.PrimeClient;
 import com.example.Models.Entities.Product.Product;
