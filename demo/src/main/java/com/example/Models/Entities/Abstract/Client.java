@@ -8,7 +8,9 @@ import com.example.Database.Database;
 import com.example.Models.Entities.Cart.Cart;
 import com.example.Models.Entities.Product.Product;
 import com.example.Models.Entities.Sale.Sale;
+import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EClientType;
+import com.example.Models.Enums.EState;
 import com.example.Models.ValueObject.Address;
 import com.example.Models.ValueObject.CreditCard;
 
@@ -18,14 +20,15 @@ public abstract class Client {
     private String name;
     private Address address;
     private CreditCard creditCard;
-    private Cart cart = new Cart();
+    private Cart cart;
     protected EClientType type = EClientType.Default;
     protected Double cashBack = 0.0;
 
-    public Client(String name, Address address) {
+    public Client(String name, EState state, EAddressPlace place) {
         id = idCounter++;
         this.name = name;
-        this.address = address;
+        this.address = new Address(state, place);
+        this.cart = new Cart();
     }
 
     @SuppressWarnings("deprecation")
@@ -34,14 +37,18 @@ public abstract class Client {
         ArrayList<Sale> sales = db.getSales();
         Double totalBuyed = 0.0;
         for (Sale s : sales)
-            if (s.getClient() == this && s.getData().getMonth() == Date.from(Instant.now()).getMonth() - 1)
+            if (s.getClient() == this && s.getData().getMonth() == Date.from(Instant.now()).getMonth() - 1){
+                s.setTotalValue();
                 totalBuyed += s.getTotalValue();
-
+            }
         return totalBuyed >= 100.0;
     }
 
-    public void AddToCart(Product p) {
-        this.cart.add(p);
+    public void AddToCart(Product... product) {
+        for(Product p : product){
+            this.cart.add(p);
+            this.cart.setTotalItens(this.cart.getTotalItens() + p.getAmount());
+        }
     }
 
     public Double addCashback(Double value) {

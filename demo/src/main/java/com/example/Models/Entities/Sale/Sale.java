@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Date;
 import com.example.Models.Entities.Abstract.Client;
 import com.example.Models.Entities.Product.Product;
+import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.ValueObject.Taxes;
 
@@ -38,10 +39,58 @@ public class Sale {
         }
     }
 
+    public Double calculateFreigth() {
+        EAddressPlace place = this.getClient().getAddress().getPlace();
+        Integer region = this.getClient().getAddress().getState().getRegion();
+        Double value = 0.0;
+        if (place == EAddressPlace.Capital) {
+            switch(region) {
+                case 0:
+                    value = 5.0;
+                    break;
+                case 1:
+                    value = 20.0;
+                    break;
+                case 2:
+                    value = 15.0;
+                    break;
+                case 3:
+                    value = 7.0;
+                    break;
+                case 4:
+                    value = 10.0;
+                    break;
+                case 5:
+                    value = 10.0;
+                    break;
+            }
+        }
+        if (place == EAddressPlace.Inside) {
+            switch(region) {
+                case 1:
+                    value = 25.0;
+                    break;
+                case 2:
+                    value = 18.0;
+                    break;
+                case 3:
+                    value = 10.0;
+                    break;
+                case 4:
+                    value = 13.0;
+                    break;
+                case 5:
+                    value = 13.0;
+                    break;
+            }
+        }
+        return (this.getClient().getType().getCode() & 4) == 4 ? 0.0 : value;
+    }
+
     public Double finish() {
         Double totalValue = this.sumProductsPriceAndTaxes();
-        Double freigth = (this.client.getType().getCode() & 4) == 4 ? 0.0 : this.client.getAddress().calculateFreigth();
-        totalValue = this.client.getType().applyDiscount(totalValue, freigth);
+        Double freight = this.calculateFreigth();
+        totalValue = this.client.getType().applyDiscount(totalValue, freight);
         if (paymentMethod == EPaymentMethod.CreditCard)
             totalValue *= 0.9;
         cashBackManipulation(totalValue);

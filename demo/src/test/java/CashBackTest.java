@@ -1,15 +1,12 @@
 import static org.junit.Assert.assertEquals;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
 import com.example.Models.Entities.Abstract.Client;
 import com.example.Models.Entities.Client.DefaultClient;
 import com.example.Models.Entities.Client.PrimeClient;
@@ -19,7 +16,6 @@ import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.Enums.EState;
 import com.example.Models.ValueObject.Address;
-import com.example.Models.ValueObject.ProductInfo;
 
 @RunWith(Parameterized.class)
 public class CashBackTest {
@@ -29,9 +25,9 @@ public class CashBackTest {
     public EPaymentMethod paymentMethod;
     public Class<? extends Client> clientClass;
     public Address address = new Address(EState.MG, EAddressPlace.Capital);
-    Product p1 = new Product(new ProductInfo(1, "Caderno", "Caderno escolar"), 2.00, "item", 1);
-    Product p2 = new Product(new ProductInfo(1, "Coca Cola", "Coca zero"), 3.00, "litro", 1);
-    Product p3 = new Product(new ProductInfo(1, "Tomate", "Tomate para salada"), 4.00, "kg", 1);
+    Product p1 = new Product(1, "Caderno", "Caderno escolar", 2.00, "item", 1);
+    Product p2 = new Product(1, "Coca Cola", "Coca zero", 3.00, "litro", 1);
+    Product p3 = new Product(1, "Tomate", "Tomate para salada", 4.00, "kg", 1);
 
     public CashBackTest(Class<? extends Client> clientClass, String name, Double result, EPaymentMethod paymentMethod) {
         this.clientClass = clientClass;

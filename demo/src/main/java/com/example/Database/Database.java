@@ -9,8 +9,6 @@ import com.example.Models.Entities.Sale.Sale;
 import com.example.Models.Enums.EAddressPlace;
 import com.example.Models.Enums.EPaymentMethod;
 import com.example.Models.Enums.EState;
-import com.example.Models.ValueObject.Address;
-import com.example.Models.ValueObject.ProductInfo;
 
 public class Database {
     private static Database instance = null;
@@ -48,17 +46,17 @@ public class Database {
     }
 
     public void addClient(String name, EState state, EAddressPlace place) {
-        DefaultClient client = new DefaultClient(name, new Address(state, place));
+        DefaultClient client = new DefaultClient(name, state, place);
         Clients.add(client);
     }
 
     public void addDefaultClient(String name, EState state, EAddressPlace place) {
-        DefaultClient client = new DefaultClient(name, new Address(state, place));
+        DefaultClient client = new DefaultClient(name, state, place);
         Clients.add(client);
     }
 
     public void addPrimeClient(String name, EState state, EAddressPlace place) {
-        PrimeClient client = new PrimeClient(name, new Address(state, place));
+        PrimeClient client = new PrimeClient(name, state, place);
         Clients.add(client);
     }
 
@@ -93,8 +91,7 @@ public class Database {
     }
 
     public void addProduct(Integer code, String name, String description, Double price, String unit, Integer amount) {
-        ProductInfo prodinfo = new ProductInfo(code, name, description);
-        Product product = new Product(prodinfo, price, unit, amount);
+        Product product = new Product(code, name, description, price, unit, amount);
         Products.add(product);
     }
 
@@ -140,6 +137,10 @@ public class Database {
         Sale sale = new Sale(client, paymentMethod);
         sale.setTotalValue();
         Sales.add(sale);
+    }
+
+    public void addSaleObject(Sale s){
+        Sales.add(s);
     }
 
     public Boolean checkIfSaleExists(int id) {
