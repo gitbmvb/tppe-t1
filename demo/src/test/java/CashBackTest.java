@@ -23,6 +23,8 @@ public class CashBackTest {
     public String name;
     public Double result;
     public EPaymentMethod paymentMethod;
+    public EAddressPlace place = EAddressPlace.Capital;
+    public EState state = EState.ES;
     public Class<? extends Client> clientClass;
     public Address address = new Address(EState.MG, EAddressPlace.Capital);
     Product p1 = new Product(1, "Caderno", "Caderno escolar", 2.00, "item", 1);
@@ -48,12 +50,13 @@ public class CashBackTest {
     }
 
     @Test
-    public void ItShouldCalculateCashbackForEachClient() throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, Address.class);
-        Client c = constructor.newInstance(name, address);
-        Sale s = new Sale(c, paymentMethod);
+    public void ItShouldCalculateCashbackForEachClient() throws NoSuchMethodException, SecurityException,
+            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, EState.class,
+                EAddressPlace.class);
+        Client client = constructor.newInstance(name, state, place);
+        Sale s = new Sale(client, paymentMethod);
         s.finish();
-        assertEquals(c.getCashBack(), result, 0.001);
+        assertEquals(client.getCashBack(), result);
     }
 }

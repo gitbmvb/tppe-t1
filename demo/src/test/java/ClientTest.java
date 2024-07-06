@@ -26,7 +26,8 @@ public class ClientTest {
     private int expectedResult;
     private Class<? extends Client> clientClass;
 
-    public ClientTest(Class<? extends Client> clientClass, EState state, EAddressPlace address, String name, int expectedResult) {
+    public ClientTest(Class<? extends Client> clientClass, EState state, EAddressPlace address, String name,
+            int expectedResult) {
         this.clientClass = clientClass;
         this.state = state;
         this.address = address;
@@ -51,8 +52,10 @@ public class ClientTest {
     }
 
     @Test
-    public void registerClient() throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, EState.class, EAddressPlace.class);
+    public void itShouldRegisterClient() throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Constructor<? extends Client> constructor = clientClass.getConstructor(String.class, EState.class,
+                EAddressPlace.class);
         Client client = constructor.newInstance(name, state, address);
         db.addClient(client);
         assertEquals(expectedResult, db.getClients().size());

@@ -1,11 +1,9 @@
 import static org.junit.Assert.assertEquals;
-import java.sql.Date;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,18 +55,18 @@ public class ClientEligibility {
         client6.AddToCart(p1, p2, p3, p4);
 
         Calendar month_ago = Calendar.getInstance();
-        month_ago.add(Calendar.DAY_OF_MONTH, -1);
+        month_ago.add(Calendar.MONTH, -1);
         Calendar today = Calendar.getInstance();
 
         Object[][] parameters = new Object[][] {
-                { client1, EPaymentMethod.CashBack, month_ago.getTime(), true},
-                { client2, EPaymentMethod.CreditCard, today.getTime(), false},
-                { client3, EPaymentMethod.Pix, today.getTime(), false},
-                { client4, EPaymentMethod.CashBack, month_ago.getTime(), true},
-                { client5, EPaymentMethod.CreditCard, month_ago.getTime(), false},
-                { client6, EPaymentMethod.Pix, today.getTime(), false},
+                { client1, EPaymentMethod.CashBack, month_ago.getTime(), true },
+                { client2, EPaymentMethod.CreditCard, today.getTime(), false },
+                { client3, EPaymentMethod.Pix, today.getTime(), false },
+                { client4, EPaymentMethod.CashBack, month_ago.getTime(), true },
+                { client5, EPaymentMethod.CreditCard, month_ago.getTime(), false },
+                { client6, EPaymentMethod.Pix, today.getTime(), false },
         };
-        
+
         return Arrays.asList(parameters);
     }
 
@@ -83,11 +81,12 @@ public class ClientEligibility {
     }
 
     @Test
-    public void testIfClientIsEligible(){
+    public void testIfClientIsEligible() {
         db.addClient(client);
         Sale sale = new Sale(client, paymentMethod);
         sale.setData(date);
         db.addSaleObject(sale);
         assertEquals(client.isNowSpecial(), isClientEligibleExpected);
+        assertEquals(1, 1);
     }
 }
