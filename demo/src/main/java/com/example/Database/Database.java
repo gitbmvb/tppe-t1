@@ -139,6 +139,10 @@ public class Database {
         Sales.add(sale);
     }
 
+    public void addSaleObject(Sale s){
+        Sales.add(s);
+    }
+
     public Boolean checkIfSaleExists(int id) {
         for (Sale sale : Sales) {
             if (sale.getId() == id)

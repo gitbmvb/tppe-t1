@@ -37,9 +37,10 @@ public abstract class Client {
         ArrayList<Sale> sales = db.getSales();
         Double totalBuyed = 0.0;
         for (Sale s : sales)
-            if (s.getClient() == this && s.getData().getMonth() == Date.from(Instant.now()).getMonth() - 1)
+            if (s.getClient() == this && s.getData().getMonth() == Date.from(Instant.now()).getMonth() - 1){
+                s.setTotalValue();
                 totalBuyed += s.getTotalValue();
-
+            }
         return totalBuyed >= 100.0;
     }
 
