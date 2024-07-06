@@ -55,14 +55,14 @@ public class ClientEligibility {
         client6.AddToCart(p1, p2, p3, p4);
 
         Calendar month_ago = Calendar.getInstance();
-        month_ago.add(Calendar.DAY_OF_MONTH, -1);
+        month_ago.add(Calendar.MONTH, -1);
         Calendar today = Calendar.getInstance();
 
         Object[][] parameters = new Object[][] {
-                { client1, EPaymentMethod.CashBack, month_ago.getTime(), false },
+                { client1, EPaymentMethod.CashBack, month_ago.getTime(), true },
                 { client2, EPaymentMethod.CreditCard, today.getTime(), false },
                 { client3, EPaymentMethod.Pix, today.getTime(), false },
-                { client4, EPaymentMethod.CashBack, month_ago.getTime(), false },
+                { client4, EPaymentMethod.CashBack, month_ago.getTime(), true },
                 { client5, EPaymentMethod.CreditCard, month_ago.getTime(), false },
                 { client6, EPaymentMethod.Pix, today.getTime(), false },
         };
