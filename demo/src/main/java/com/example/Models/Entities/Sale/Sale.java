@@ -17,6 +17,9 @@ public class Sale {
     private Taxes taxes = new Taxes();
     private Double totalValue = 0.0;
 
+    public Sale() {
+    }
+
     public Sale(Client client, EPaymentMethod paymentMethod) {
         id = idCounter++;
         this.data = Date.from(Instant.now());
@@ -33,7 +36,7 @@ public class Sale {
     }
 
     public void setTotalValue() {
-        for(Product p : client.getCart().getProducts()) {
+        for (Product p : client.getCart().getProducts()) {
             taxes.calculateTaxes(client.getAddress(), p.getPrice());
             totalValue += (p.getPrice() * p.getAmount());
         }
@@ -44,7 +47,7 @@ public class Sale {
         Integer region = this.getClient().getAddress().getState().getRegion();
         Double value = 0.0;
         if (place == EAddressPlace.Capital) {
-            switch(region) {
+            switch (region) {
                 case 0:
                     value = 5.0;
                     break;
@@ -66,7 +69,7 @@ public class Sale {
             }
         }
         if (place == EAddressPlace.Inside) {
-            switch(region) {
+            switch (region) {
                 case 1:
                     value = 25.0;
                     break;
@@ -88,17 +91,11 @@ public class Sale {
     }
 
     public Double finish() {
-        Double totalValue = this.sumProductsPriceAndTaxes();
-        Double freight = this.calculateFreigth();
-        totalValue = this.client.getType().applyDiscount(totalValue, freight);
-        if (paymentMethod == EPaymentMethod.CreditCard)
-            totalValue *= 0.9;
-        cashBackManipulation(totalValue);
-        this.totalValue = totalValue;
-        return totalValue;
+        FinishSaleMethod finishMethod = new FinishSaleMethod(this);
+        return finishMethod.finish();
     }
 
-    private void cashBackManipulation(Double value) {
+    public void cashBackManipulation(Double value) {
         if (paymentMethod == EPaymentMethod.CashBack) {
             this.client.discountCashback(value);
             return;
@@ -106,7 +103,7 @@ public class Sale {
         this.client.addCashback(value);
     }
 
-    private double sumProductsPriceAndTaxes() {
+    public double sumProductsPriceAndTaxes() {
         double sum = 0.0;
         for (Product p : client.getCart().getProducts()) {
             taxes.calculateTaxes(this.client.getAddress(), p.getPrice());
