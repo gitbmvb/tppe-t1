@@ -45,49 +45,55 @@ public class Sale {
     public Double calculateFreigth() {
         EAddressPlace place = this.getClient().getAddress().getPlace();
         Integer region = this.getClient().getAddress().getState().getRegion();
-        Double value = 0.0;
-        if (place == EAddressPlace.Capital) {
-            switch (region) {
-                case 0:
-                    value = 5.0;
-                    break;
-                case 1:
-                    value = 20.0;
-                    break;
-                case 2:
-                    value = 15.0;
-                    break;
-                case 3:
-                    value = 7.0;
-                    break;
-                case 4:
-                    value = 10.0;
-                    break;
-                case 5:
-                    value = 10.0;
-                    break;
-            }
-        }
-        if (place == EAddressPlace.Inside) {
-            switch (region) {
-                case 1:
-                    value = 25.0;
-                    break;
-                case 2:
-                    value = 18.0;
-                    break;
-                case 3:
-                    value = 10.0;
-                    break;
-                case 4:
-                    value = 13.0;
-                    break;
-                case 5:
-                    value = 13.0;
-                    break;
-            }
-        }
+        Double value = (place == EAddressPlace.Capital) ? getFreightCapital(region):getFreightInside(region);
         return (this.getClient().getType().getCode() & 4) == 4 ? 0.0 : value;
+    }
+
+    public Double getFreightCapital(Integer region){
+        Double value = 0.0;
+        switch (region) {
+            case 0:
+                value = 5.0;
+                break;
+            case 1:
+                value = 20.0;
+                break;
+            case 2:
+                value = 15.0;
+                break;
+            case 3:
+                value = 7.0;
+                break;
+            case 4:
+                value = 10.0;
+                break;
+            case 5:
+                value = 10.0;
+                break;
+        }
+        return value;
+    } 
+
+    public Double getFreightInside(Integer region){
+        Double value = 0.0;
+        switch (region) {
+            case 1:
+                value = 25.0;
+                break;
+            case 2:
+                value = 18.0;
+                break;
+            case 3:
+                value = 10.0;
+                break;
+            case 4:
+                value = 13.0;
+                break;
+            case 5:
+                value = 13.0;
+                break;
+        }
+        return value;
     }
 
     public Double finish() {
