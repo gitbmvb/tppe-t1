@@ -7,33 +7,12 @@ public class Taxes {
     private Double municipal = 0.0;
 
     public Taxes() {
-    
-    }
+        
+    } 
 
     public void calculateTaxes(Address address, Double value) {
-        if (address.getState().getRegion() == 0) {
-            this.icms = value * 0.18;
-
-        } else {
-            this.icms = value * 0.12;
-            this.municipal = value * 0.04;
-        }
-    }
-    
-    public Double calculateICMS(EState state, Double value){
-        if(state.getRegion() == 0){
-            return value * 0.18;
-        } else {
-            return value * 0.12;
-        }
-    }
-
-    public Double calculateMunicipal(EState state, Double value){
-        if(state.getRegion() == 0){
-            return 0.0;
-        } else {
-            return value * 0.04;
-        }
+        TaxesCalculator calculator = new TaxesCalculator();
+        calculator.calculateTaxes(this, address, value);
     }
 
     public Double getIcms() {
